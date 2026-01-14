@@ -1,6 +1,6 @@
 # Ghidra GUI + MCP Docker Container
 
-This repository provides a Dockerized reverse‑engineering environment centered around Ghidra, with additional tooling for firmware analysis, Java decompilation, MCP (Malware C2 Protocol) bridging, and proxy/server workflows.
+This repository provides a Dockerized reverse‑engineering environment centered around Ghidra, with additional tooling for firmware analysis, Java decompilation, AI MCP (Model Context Protocol) bridging, and proxy/server workflows.
 
 The container is designed to:
 - Run Ghidra with a native GUI via X11
@@ -19,7 +19,7 @@ This setup intentionally trades Docker isolation for tight host‑network integr
 - Supports MCP server + proxy workflows via host networking
 - Uses host X11 forwarding for native GUI applications
 
-This is not a minimal container. It is intended to function as a full analyst workstation.
+This is not a minimal container. It is intended to function as an AI-assisted analyst workstation.
 
 ---
 
@@ -90,6 +90,8 @@ The container is run with:
 Run with:
 ./run.sh
 
+NOTE: you will need to change the shared data path in the run.sh command to match a real path in your system.
+
 If GUI permissions fail, run on the host:
 xhost +local:docker
 
@@ -106,7 +108,7 @@ xhost +local:docker
 ## Tools Included
 
 Reverse Engineering:
-- Ghidra (official NSA release)
+- Ghidra (official release)
 - Ghidra MCP plugin
 - JD‑GUI (Java decompiler)
 
@@ -116,7 +118,7 @@ Firmware / Embedded Analysis:
 - tp-link-decrypt
 - Embedded firmware tooling
 
-Malware / MCP:
+Model Context Protocol:
 - GhidraMCP bridge
 - MCP server integration
 - SSE transport support
