@@ -50,6 +50,13 @@ RUN apt-get update && apt-get install -y \
     binwalk \
     iproute2 \
     vim \
+    squashfs-tools \
+    zlib1g-dev \
+    python3-magic \
+    autoconf \
+    python-is-python3 \
+    u-boot-tools \
+    unyaffs \
     && rm -rf /var/lib/apt/lists/*
 
 # -----------------------------
@@ -116,14 +123,34 @@ RUN cd /opt/tp-link-decrypt && \
 RUN make -C /opt/tp-link-decrypt -j"$(nproc)"
 
 # -----------------------------
+# Install firmware-mod-kit
+# -----------------------------
+RUN git clone https://github.com/rampageX/firmware-mod-kit /opt/firmware-mod-kit
+
+# -----------------------------
+# Build OpenWrt firmware-utils
+# -----------------------------
+RUN git clone https://github.com/openwrt/firmware-utils /opt/firmware-utils && \
+    mkdir -p /opt/firmware-utils/build && \
+    cd /opt/firmware-utils/build && \
+    cmake .. && \
+    make -j"$(nproc)"
+ENV PATH="/opt/firmware-utils/build:${PATH}"
+
+# -----------------------------
 # Install GhidraMCP
 # -----------------------------
 RUN mkdir -p /opt/ghidra-mcp && \
 wget -q https://github.com/LaurieWired/GhidraMCP/releases/download/1.4/GhidraMCP-release-1-4.zip \
     -O /tmp/GhidraMCP-release-1-4.zip && \
-unzip -q /tmp/GhidraMCP-release-1-4.zip -d /opt/ghidra-mcp && \
-rm /tmp/GhidraMCP-release-1-4.zip
+    unzip -q /tmp/GhidraMCP-release-1-4.zip -d /opt/ghidra-mcp && \
+    rm /tmp/GhidraMCP-release-1-4.zip
 RUN chmod +x /opt/ghidra-mcp/GhidraMCP-release-1-4/bridge_mcp_ghidra.py
+# Install Ghidra extension
+RUN mkdir -p /root/.config/ghidra/ghidra_11.3.2_PUBLIC/Extensions && \
+    unzip -q /opt/ghidra-mcp/GhidraMCP-release-1-4/GhidraMCP-1-4.zip \
+        -d /root/.config/ghidra/ghidra_11.3.2_PUBLIC/Extensions && \
+    rm /opt/ghidra-mcp/GhidraMCP-release-1-4/GhidraMCP-1-4.zip
 
 # -----------------------------
 # Create Ghidra MCP runner script
