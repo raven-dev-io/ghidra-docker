@@ -114,9 +114,14 @@ Reverse Engineering:
 
 Firmware / Embedded Analysis:
 - Binwalk (Rust build)
+- Binwalk (c build)
 - ubi-reader
 - tp-link-decrypt
 - Embedded firmware tooling
+- squashfs-tools
+- unyaffs
+- firmware-utils
+- firmware-mod-kit
 
 Model Context Protocol:
 - GhidraMCP bridge
