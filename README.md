@@ -122,6 +122,7 @@ Firmware / Embedded Analysis:
 - unyaffs
 - firmware-utils
 - firmware-mod-kit
+- u-boot-tools
 
 Model Context Protocol:
 - GhidraMCP bridge
