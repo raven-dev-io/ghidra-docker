@@ -138,6 +138,41 @@ RUN git clone https://github.com/openwrt/firmware-utils /opt/firmware-utils && \
 ENV PATH="/opt/firmware-utils/build:${PATH}"
 
 # -----------------------------
+# Add apktool (latest version)
+# -----------------------------
+RUN wget -O /usr/local/bin/apktool.jar https://github.com/iBotPeaches/Apktool/releases/download/v2.12.1/apktool_2.12.1.jar && \
+    echo -e '#!/bin/sh\njava -jar /usr/local/bin/apktool.jar "$@"' > /usr/local/bin/apktool && \
+    chmod +x /usr/local/bin/apktool /usr/local/bin/apktool.jar
+
+# -----------------------------
+# Install dex2jar v2.4 (flattened correctly)
+# -----------------------------
+RUN wget -O /tmp/dex-tools-v2.4.zip https://github.com/pxb1988/dex2jar/releases/download/v2.4/dex-tools-v2.4.zip && \
+    unzip /tmp/dex-tools-v2.4.zip -d /opt/dex2jar && \
+    mv /opt/dex2jar/dex-tools-v2.4/* /opt/dex2jar/ && \
+    rmdir /opt/dex2jar/dex-tools-v2.4 && \
+    chmod +x /opt/dex2jar/*.sh && \
+    ln -sf /opt/dex2jar/d2j-dex2jar.sh /usr/local/bin/dex2jar && \
+    rm /tmp/dex-tools-v2.4.zip
+
+# -----------------------------
+# Install Node.js from NodeSource
+# -----------------------------
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get update && \
+    apt-get install -y nodejs
+
+# -----------------------------
+# Enable Corepack
+# -----------------------------
+RUN corepack enable
+
+# -----------------------------
+# Install Grok-CLI
+# -----------------------------
+RUN npm install -g @vibe-kit/grok-cli
+
+# -----------------------------
 # Install GhidraMCP
 # -----------------------------
 RUN mkdir -p /opt/ghidra-mcp && \
